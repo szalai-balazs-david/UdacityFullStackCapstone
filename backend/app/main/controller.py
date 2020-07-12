@@ -17,97 +17,131 @@ def after_request(response):
 @app.route('/doctors', methods=['POST'])
 @requires_auth('post:doctors')
 def app_post_doctor():
-    abort(404)
+    data = request.json
+    if 'name' not in data:
+        abort(422)
+    return create_doctor(data['name'])
 
 
 @app.route('/doctors', methods=['GET'])
 @requires_auth('get:doctors')
 def app_get_doctors():
-    abort(404)
+    doctor_id = request.args.get('id', -1, type=int)
+    if doctor_id == -1:
+        return get_doctors()
+    return get_doctor_details(doctor_id)
 
 
-@app.route('/doctors/<id>', methods=['GET'])
-@requires_auth('get:doctor_details')
-def app_get_doctor(id):
-    abort(404)
-
-
-@app.route('/doctors/<id>', methods=['PATCH'])
+@app.route('/doctors/<doctor_id>', methods=['PATCH'])
 @requires_auth('patch:doctors')
-def app_update_doctor(id):
-    abort(404)
+def app_update_doctor(doctor_id):
+    data = request.json
+    if 'name' not in data:
+        abort(422)
+    return update_doctor(doctor_id, data['name'])
 
 
-@app.route('/doctors/<id>', methods=['DELETE'])
+@app.route('/doctors/<doctor_id>', methods=['DELETE'])
 @requires_auth('delete:doctors')
-def app_delete_doctor():
-    abort(404)
+def app_delete_doctor(doctor_id):
+    return delete_doctor(doctor_id)
 
 
 @app.route('/users', methods=['POST'])
 @requires_auth('post:users')
 def app_post_user():
-    abort(404)
+    data = request.json
+    if 'name' not in data:
+        abort(422)
+    if 'email' not in data:
+        abort(422)
+    if 'phone' not in data:
+        abort(422)
+    return create_user(data['name'], data['email'], data['phone'])
 
 
 @app.route('/users', methods=['GET'])
 @requires_auth('get:users')
 def app_get_users():
-    abort(404)
-
-
-@app.route('/users/<id>', methods=['GET'])
-@requires_auth('get:user_details')
-def app_get_user(id):
-    abort(404)
+    user_id = request.args.get('id', -1, type=int)
+    if user_id == -1:
+        return get_users()
+    return get_user_details(user_id)
 
 
 @app.route('/users/<id>', methods=['PATCH'])
 @requires_auth('patch:users')
-def app_update_user(id):
-    abort(404)
+def app_update_user(user_id):
+    data = request.json
+    if 'name' not in data and 'email' not in data and 'phone' not in data:
+        abort(422)
+    name = data['name'] if 'name' in data else ''
+    email = data['email'] if 'email' in data else ''
+    phone = data['phone'] if 'phone' in data else ''
+    return update_user(user_id, name, email, phone)
 
 
-@app.route('/users/<id>', methods=['DELETE'])
+@app.route('/users/<user_id>', methods=['DELETE'])
 @requires_auth('delete:users')
-def app_delete_user():
-    abort(404)
+def app_delete_user(user_id):
+    return delete_user(user_id)
 
 
 @app.route('/tests', methods=['POST'])
 @requires_auth('post:tests')
 def app_post_tests():
-    abort(404)
+    data = request.json
+    if 'name' not in data:
+        abort(422)
+    return create_test(data['name'])
 
 
 @app.route('/tests', methods=['GET'])
 @requires_auth('get:tests')
 def app_get_tests():
-    abort(404)
+    return get_tests()
 
 
 @app.route('/results', methods=['POST'])
 @requires_auth('post:results')
 def app_post_results():
-    abort(404)
+    data = request.json
+    if 'user_id' not in data:
+        abort(422)
+    if 'test_id' not in data:
+        abort(422)
+    if 'time' not in data:
+        abort(422)
+    if 'value' not in data:
+        abort(422)
+    return register_test_result(data['user_id'], data['test_id'], data['time'], data['value'])
 
 
 @app.route('/results', methods=['GET'])
 @requires_auth('get:results')
 def app_get_results():
-    abort(404)
+    user_id = request.args.get('id', -1, type=int)
+    if user_id == -1:
+        abort(422)
+    test_id = request.args.get('id', -1, type=int)
+    return get_test_results(user_id, test_id)
 
 
-@app.route('/results/<id>', methods=['PATCH'])
+@app.route('/results/<result_id>', methods=['PATCH'])
 @requires_auth('patch:results')
-def app_update_results(id):
-    abort(404)
+def app_update_results(result_id):
+    data = request.json
+    if 'time' not in data and 'value' not in data:
+        abort(422)
+    time = data['time'] if 'time' in data else ''
+    value = data['value'] if 'value' in data else ''
+    return update_test_result(result_id, time, value)
 
 
-@app.route('/results/<id>', methods=['DELETE'])
+@app.route('/results/<result_id>', methods=['DELETE'])
 @requires_auth('delete:results')
-def app_delete_results(id):
-    abort(404)
+def app_delete_results(result_id):
+    return delete_result(result_id)
 
 
 @app.errorhandler(404)
