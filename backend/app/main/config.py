@@ -10,21 +10,21 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/trivia'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\UdacityFullStackCapstone\\backend\\app\\main\\dev.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\Trivia\\backend\\app\\test\\test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\UdacityFullStackCapstone\\backend\\app\\main\\test.db'
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/trivia'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\UdacityFullStackCapstone\\backend\\app\\main\\prod.db'
 
 
 config_by_name = dict(
