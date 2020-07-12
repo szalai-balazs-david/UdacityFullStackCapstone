@@ -10,7 +10,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\UdacityFullStackCapstone\\backend\\app\\main\\dev.db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/blood'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -24,7 +24,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///C:\\prj\\UdacityFullStackCapstone\\backend\\app\\main\\prod.db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/blood'
 
 
 config_by_name = dict(
