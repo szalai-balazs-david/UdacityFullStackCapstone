@@ -1,5 +1,5 @@
 from app.main import db
-from app.main.models import Doctor, TestResult, Test, User
+from app.main.models import TestResult, Test, User
 from app.main.util import get_response
 from flask import abort, jsonify
 
