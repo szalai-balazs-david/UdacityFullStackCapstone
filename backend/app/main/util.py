@@ -9,7 +9,7 @@ from app.main import db
 
 AUTH0_DOMAIN = 'balazsszalai.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'https://balazs-coffe-shop'
+API_AUDIENCE = 'https://medical-measurement'
 
 
 class AuthError(Exception):
@@ -29,8 +29,6 @@ def convert_auth0_id_to_api_id(auth0_user_id):
     else:
         user_id = user.id
     return user_id
-
-
 
 
 def get_user_id():
