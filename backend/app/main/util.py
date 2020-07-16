@@ -4,6 +4,8 @@ from flask import request, _request_ctx_stack, abort
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
+from app.main.models import User
+from app.main import db
 
 AUTH0_DOMAIN = 'balazsszalai.auth0.com'
 ALGORITHMS = ['RS256']
@@ -14,6 +16,21 @@ class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
+
+
+def convert_auth0_id_to_api_id(auth0_user_id):
+    user = User.query.filter(User.auth0_id == auth0_user_id).first()
+    if user is None:
+        new_user = User()
+        new_user.auth0_id = auth0_user_id
+        db.session.add(new_user)
+        db.session.commit()
+        user_id = new_user.id
+    else:
+        user_id = user.id
+    return user_id
+
+
 
 
 def get_user_id():
