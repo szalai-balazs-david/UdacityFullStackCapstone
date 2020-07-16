@@ -4,43 +4,11 @@ from app.main.util import get_response
 from flask import abort, jsonify
 
 
-def register_doctor(name):
-    abort(404)
-
-
-def get_doctors():
-    abort(404)
-
-
-def get_doctor_details(id):
-    abort(404)
-
-
-def update_doctor(id, name):
-    abort(404)
-
-
-def delete_doctor(id):
-    abort(404)
-
-
-def create_user(name, email, phone):
-    abort(404)
-
-
-def get_users():
-    abort(404)
-
-
 def get_user_details(user_id):
     abort(404)
 
 
-def update_user(id, name, email, phone):
-    abort(404)
-
-
-def delete_user(id):
+def update_user(id, name):
     abort(404)
 
 
@@ -60,9 +28,9 @@ def get_test_results(user_id, test_id):
     abort(404)
 
 
-def update_test_result(result_id, time, value):
+def update_test_result(user_id, result_id, time, value):
     abort(404)
 
 
-def delete_result(id):
+def delete_result(user_id, id):
     abort(404)
