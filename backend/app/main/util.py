@@ -16,6 +16,17 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
+def get_user_id():
+    token = get_token_auth_header()
+    payload = verify_decode_jwt(token)
+    if 'sub' not in payload:
+        raise AuthError({
+            'code': 'no userID',
+            'description': 'UserID not included in JWT.'
+        }, 401)
+    return payload['sub']
+
+
 def get_token_auth_header():
     if 'Authorization' not in request.headers:
         raise AuthError({

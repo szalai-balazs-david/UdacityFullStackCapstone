@@ -4,7 +4,7 @@ from app.main.util import get_response
 from flask import abort, jsonify
 
 
-def create_doctor(name):
+def register_doctor(name):
     abort(404)
 
 

@@ -1,6 +1,6 @@
 from flask import request, abort, Blueprint
 
-from app.main.util import get_response, AuthError, requires_auth
+from app.main.util import get_response, AuthError, requires_auth, get_user_id
 from app.main.service import *
 
 
@@ -20,7 +20,7 @@ def app_post_doctor():
     data = request.json
     if 'name' not in data:
         abort(422)
-    return create_doctor(data['name'])
+    return register_doctor(data['name'])
 
 
 @app.route('/doctors', methods=['GET'])
