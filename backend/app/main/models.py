@@ -5,7 +5,7 @@ class Test(db.Model):
     __tablename__ = 'tests'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False, unique=True)
     results = db.relationship('TestResult', cascade="delete", backref=db.backref('test', lazy=True))
 
 
@@ -25,4 +25,4 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     auth0_id = db.Column(db.String, nullable=False, unique=True)
     name = db.Column(db.String, nullable=True)
-    results = db.relationship('TestResult', backref='user', lazy=True)
+    results = db.relationship('TestResult', cascade="delete", backref='user', lazy=True)
