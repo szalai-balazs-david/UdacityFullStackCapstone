@@ -15,14 +15,14 @@ def after_request(response):
 
 
 @app.route('/user', methods=['GET'])
-@requires_auth('get:user')
+# @requires_auth('get:user')
 def app_get_user():
     user_id = get_user_id()
     return get_user_details(user_id)
 
 
 @app.route('/user', methods=['PATCH'])
-@requires_auth('patch:user')
+# @requires_auth('patch:user')
 def app_update_user():
     user_id = get_user_id()
     data = request.json
@@ -41,13 +41,13 @@ def app_post_tests():
 
 
 @app.route('/tests', methods=['GET'])
-@requires_auth('get:tests')
+# @requires_auth('get:tests')
 def app_get_tests():
     return get_tests()
 
 
 @app.route('/results', methods=['POST'])
-@requires_auth('post:results')
+# @requires_auth('post:results')
 def app_post_results():
     user_id = get_user_id()
     data = request.json
@@ -61,7 +61,7 @@ def app_post_results():
 
 
 @app.route('/results', methods=['GET'])
-@requires_auth('get:results')
+# @requires_auth('get:results')
 def app_get_results():
     user_id = get_user_id()
     #ToDo: add time range?
@@ -70,7 +70,7 @@ def app_get_results():
 
 
 @app.route('/results/<result_id>', methods=['PATCH'])
-@requires_auth('patch:results')
+# @requires_auth('patch:results')
 def app_update_results(result_id):
     user_id = get_user_id()
     data = request.json
@@ -82,7 +82,7 @@ def app_update_results(result_id):
 
 
 @app.route('/results/<result_id>', methods=['DELETE'])
-@requires_auth('delete:results')
+# @requires_auth('delete:results')
 def app_delete_results(result_id):
     user_id = get_user_id()
     return delete_result(user_id, result_id)
