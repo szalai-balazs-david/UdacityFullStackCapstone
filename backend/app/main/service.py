@@ -17,6 +17,13 @@ def user_to_short_string(user):
     }
 
 
+def test_to_short_string(test):
+    return {
+        'id': test.id,
+        'name': test.name
+    }
+
+
 def get_user_details(user_id):
     user = User.query.get(user_id)
     return get_response(user_to_short_string(user))
@@ -30,11 +37,23 @@ def update_user(user_id, name):
 
 
 def create_test(name):
-    abort(404)
+    test = Test.query.filter(Test.name == name).first()
+    if test is None:
+        new_test = Test()
+        new_test.name = name
+        db.session.add(new_test)
+        db.session.commit()
+        return get_response(test_to_short_string(test))
+    else:
+        abort(422, "Name already exists")
 
 
 def get_tests():
-    abort(404)
+    tests = Test.query.all()
+    data = []
+    for test in tests:
+        data.append(test_to_short_string(test))
+    return get_response(data)
 
 
 def register_test_result(user_id, test_id, time, value):
