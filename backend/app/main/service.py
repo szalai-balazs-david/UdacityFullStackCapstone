@@ -2,6 +2,7 @@ from app.main import db
 from app.main.models import TestResult, Test, User
 from app.main.util import get_response
 from flask import abort, jsonify
+from app.main.util import AuthError
 
 
 def user_to_short_string(user):
@@ -21,6 +22,16 @@ def test_to_short_string(test):
     return {
         'id': test.id,
         'name': test.name
+    }
+
+
+def result_to_short_string(result):
+    return {
+        'id': result.id,
+        'user_id': result.user_id,
+        'test_id': result.test_id,
+        'time': result.time,
+        'value': result.value
     }
 
 
@@ -57,16 +68,64 @@ def get_tests():
 
 
 def register_test_result(user_id, test_id, time, value):
-    abort(404)
+    result = TestResult()
+    result.user_id = user_id
+    result.test_id = test_id
+    result.time = time
+    result.value = value
+    db.session.add(result)
+    db.session.commit()
+    return get_response(result_to_short_string(result))
 
 
 def get_test_results(user_id, test_id):
-    abort(404)
+    if test_id == -1:
+        results = TestResult.query.filter(TestResult.user_id == user_id).all()
+    else:
+        results = TestResult.query.filter(TestResult.user_id == user_id).filter(TestResult.test_id == test_id).all()
+
+    data = []
+    for result in results:
+        data.append(result_to_short_string(result))
+
+    # todo: test_id and user_id are duplications...
+    return get_response({
+        'test_id': test_id,
+        'user_id': user_id,
+        'data': data
+    })
 
 
 def update_test_result(user_id, result_id, time, value):
-    abort(404)
+    result = TestResult.query.get(result_id)
+    if result is None:
+        abort(404)
+    if result.user_id != user_id:
+        raise AuthError({
+            'code': 'unauthorized',
+            'description': 'Test result belongs to another user.'
+        }, 403)
+
+    if time != '':
+        result.time = time
+    if value != '':
+        result.value = value
+    db.session.commit()
+
+    return get_response(result_to_short_string(result))
 
 
 def delete_result(user_id, result_id):
-    abort(404)
+    result = TestResult.query.get(result_id)
+    if result is None:
+        abort(404)
+    if result.user_id != user_id:
+        raise AuthError({
+            'code': 'unauthorized',
+            'description': 'Test result belongs to another user.'
+        }, 403)
+
+    db.session.delete(result)
+    db.session.commit()
+
+    return get_response(result_id)
