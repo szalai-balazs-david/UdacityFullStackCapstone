@@ -56,6 +56,6 @@ class BaseTestClass(unittest.TestCase):
                     result.test_id = test.id
                     result.user_id = user.id
                     result.value = j
-                    result.time = datetime.datetime.utcnow
+                    result.time = datetime.datetime.utcnow()
                     self.db.session.add(result)
-            self.db.session.commit()
+                self.db.session.commit()
