@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0, withAuth0 } from '@auth0/auth0-react';
 
 const Stuff = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, getTokenWithPopup } = useAuth0();
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {

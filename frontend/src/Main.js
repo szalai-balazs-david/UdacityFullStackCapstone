@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import Stuff from "./Stuff";
+import Profile from "./users";
 import Contact from "./Contact";
 import App from "./App";
 
@@ -24,7 +25,7 @@ class Main extends Component {
                     <div className="content">
                         <Route exact path="/" component={Home}/>
                         <Route path="/stuff" component={Stuff}/>
-                        <Route path="/contact" component={Contact}/>
+                        <Route path="/contact" component={Profile}/>
                     </div>
                 </div>
             </HashRouter>
