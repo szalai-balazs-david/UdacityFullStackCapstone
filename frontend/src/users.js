@@ -32,9 +32,7 @@ const Profile = () => {
   }
   return (
     <ul>
-      {users.map((user, index) => {
-        return <li key={index}>{user}</li>;
-      })}
+      {users}
     </ul>
   );
 };
