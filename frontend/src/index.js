@@ -11,7 +11,7 @@ ReactDOM.render(
     clientId="Ijleo40NJaKF4t0IUPCfXovwzUgyzGnj"
     redirectUri="http://127.0.0.1:3000/#/"
   >
-    <App />
+    <Main />
   </Auth0Provider>,
   document.getElementById("root")
 );

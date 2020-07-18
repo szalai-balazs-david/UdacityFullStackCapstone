@@ -10,13 +10,15 @@ import Contact from "./Contact";
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import Profile from "./Profile";
+import App from "./App";
 
 class Main extends Component {
     render() {
         return (
             <HashRouter>
+                <h1>Medical Test Result Collector</h1>
+                <App />
                 <div>
-                    <h1>Medical Test Result Collector</h1>
                     <ul className="header">
                         <li><NavLink exact to="/">Home</NavLink></li>
                         <li><NavLink to="/stuff">Stuff</NavLink></li>
