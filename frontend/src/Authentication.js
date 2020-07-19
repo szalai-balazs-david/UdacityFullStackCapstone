@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { useAuth0 } from '@auth0/auth0-react';
 
 
-function App() {
+function Authentication() {
   const {
     isLoading,
     isAuthenticated,
@@ -33,4 +33,4 @@ function App() {
   }
 }
 
-export default App;
+export default Authentication;

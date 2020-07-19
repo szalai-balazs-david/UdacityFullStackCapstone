@@ -6,26 +6,24 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import Stuff from "./Stuff";
-import Profile from "./users";
+import Profile from "./Profile";
 import Contact from "./Contact";
-import App from "./App";
+import Authentication from "./Authentication";
 
 class Main extends Component {
     render() {
         return (
             <HashRouter>
                 <h1>Medical Test Result Collector</h1>
-                <App />
+                <Authentication />
                 <div>
                     <ul className="header">
                         <li><NavLink exact to="/">Home</NavLink></li>
-                        <li><NavLink to="/stuff">Stuff</NavLink></li>
-                        <li><NavLink to="/contact">Contact</NavLink></li>
+                        <li><NavLink to="/profile">Profile</NavLink></li>
                     </ul>
                     <div className="content">
                         <Route exact path="/" component={Home}/>
-                        <Route path="/stuff" component={Stuff}/>
-                        <Route path="/contact" component={Profile}/>
+                        <Route path="/Profile" component={Profile}/>
                     </div>
                 </div>
             </HashRouter>
