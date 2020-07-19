@@ -25,8 +25,6 @@ def convert_auth0_id_to_api_id(auth0_user_id):
         new_user.auth0_id = auth0_user_id
         db.session.add(new_user)
         db.session.commit()
-        new_user.name = "User" + str(new_user.id)
-        db.session.commit()
         user_id = new_user.id
     else:
         user_id = user.id

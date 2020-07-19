@@ -13,7 +13,7 @@ def user_to_short_string(user):
             tests.append(result.test_id)
     return {
         'id': user.id,
-        'name': user.name if user.name is not None else user.auth0_id,
+        'name': user.name if user.name is not None else "Unknown",
         'tests': tests
     }
 
