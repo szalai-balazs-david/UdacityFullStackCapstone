@@ -9,7 +9,7 @@ const Profile = () => {
   };
   const { login, getAccessTokenWithPopup } = useAuth0();
   const { loading, error, refresh, data: users } = useApi(
-    'http://127.0.0.1:5000/tests',
+    '/tests',
     opts
   );
   const getTokenAndTryAgain = async () => {

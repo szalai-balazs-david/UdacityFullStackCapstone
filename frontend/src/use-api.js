@@ -15,7 +15,8 @@ export const useApi = (url, options = {}) => {
       try {
         const { audience, scope, ...fetchOptions } = options;
         const accessToken = await getAccessTokenSilently({ audience, scope });
-        const res = await fetch('https://cors-anywhere.herokuapp.com/' + url, {
+        //const res = await fetch('https://cors-anywhere.herokuapp.com/' + url, {
+        const res = await fetch(url, {
           ...fetchOptions,
           headers: {
             ...fetchOptions.headers,
@@ -25,7 +26,7 @@ export const useApi = (url, options = {}) => {
         });
         setState({
           ...state,
-          data: await res.json(),
+          data: await res.text(),
           error: null,
           loading: false,
         });
