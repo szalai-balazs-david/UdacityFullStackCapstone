@@ -6,11 +6,16 @@ from app.main.util import AuthError
 
 
 def user_to_short_string(user):
+    ids = []
     tests = []
     for result in user.results:
-        if result.test_id not in tests:
+        if result.test_id not in ids:
             # todo: add test name in addition to test id
-            tests.append(result.test_id)
+            ids.append(result.test_id)
+            tests.append({
+                'id': result.test_id,
+                'name': result.test.name
+            })
     return {
         'id': user.id,
         'name': user.name if user.name is not None else "Unknown",
