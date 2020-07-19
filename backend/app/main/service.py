@@ -7,7 +7,7 @@ from app.main.util import AuthError
 
 def user_to_short_string(user):
     tests = []
-    for result in User.results:
+    for result in user.results:
         if result.test_id not in tests:
             # todo: add test name in addition to test id
             tests.append(result.test_id)

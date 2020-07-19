@@ -17,7 +17,6 @@ def after_request(response):
 @app.route('/user', methods=['GET'])
 # @requires_auth('get:user')
 def app_get_user():
-    print("/user")
     user_id = get_user_id()
     return get_user_details(user_id)
 
