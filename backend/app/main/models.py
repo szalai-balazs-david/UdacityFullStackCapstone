@@ -24,5 +24,6 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     auth0_id = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=True, unique=True)
     name = db.Column(db.String, nullable=True)
     results = db.relationship('TestResult', cascade="delete", backref='user', lazy=True)
