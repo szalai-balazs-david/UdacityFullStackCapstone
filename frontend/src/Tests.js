@@ -33,7 +33,7 @@ function Tests() {
   const handleSubmit = (evt) => {
       getAccessTokenSilently({
         audience: 'https://medical-measurement',
-        scope: 'get:doctors',
+        scope: 'post:tests',
       })
       .then(token => fetch("/tests", {
           method: 'POST',
