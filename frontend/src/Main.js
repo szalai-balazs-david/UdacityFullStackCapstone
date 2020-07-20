@@ -5,9 +5,7 @@ import {
   HashRouter
 } from "react-router-dom";
 import Home from "./Home";
-import Stuff from "./Stuff";
 import Profile from "./Profile";
-import Contact from "./Contact";
 import Result from "./Results";
 import Authentication from "./Authentication";
 
@@ -25,7 +23,7 @@ class Main extends Component {
                     </ul>
                     <div className="content">
                         <Route exact path="/" component={Home}/>
-                        <Route path="/Profile" component={Profile}/>
+                        <Route path="/profile" component={Profile}/>
                         <Route path="/results" component={Result}/>
                     </div>
                 </div>
