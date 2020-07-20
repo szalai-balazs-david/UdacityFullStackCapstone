@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
 function Result() {
   const { getAccessTokenSilently } = useAuth0();
@@ -88,4 +88,4 @@ function Result() {
   }
 }
 
-export default Result;
+export default withAuthenticationRequired(Result);
