@@ -40,12 +40,12 @@ def result_to_short_string(result):
     }
 
 
-def get_user_details(user_id):
+def get_profile(user_id):
     user = User.query.get(user_id)
     return get_response(user_to_short_string(user))
 
 
-def update_user(user_id, name):
+def update_profile(user_id, name):
     user = User.query.get(user_id)
     user.name = name
     db.session.commit()
@@ -134,3 +134,11 @@ def delete_result(user_id, result_id):
     db.session.commit()
 
     return get_response(result_id)
+
+
+def get_available_users():
+    users = User.query.all()
+    result = []
+    for user in users:
+        result.append(user_to_short_string(user))
+    return get_response(result)
