@@ -49,7 +49,7 @@ def update_profile(user_id, name):
     user = User.query.get(user_id)
     user.name = name
     db.session.commit()
-    return get_user_details(user_to_short_string(user))
+    return get_profile(user.id)
 
 
 def create_test(name):
