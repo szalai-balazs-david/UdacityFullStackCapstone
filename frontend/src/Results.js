@@ -2,17 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
 function Result() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [value, setValue] = useState(0);
-
-  useEffect(() => {
-      getAccessTokenSilently({
+  const [refreshIndex, setRefreshIndex] = useState(0);
+  const getOpts = {
         audience: 'https://medical-measurement',
         scope: 'get:results',
-      })
+      };
+  const getTokenAndTryAgain = async () => {
+    await getAccessTokenWithPopup(getOpts);
+    setRefreshIndex(refreshIndex + 1);
+  };
+
+  useEffect(() => {
+      getAccessTokenSilently(getOpts)
       .then(token => fetch("/results", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -21,18 +27,23 @@ function Result() {
       .then(res => res.json())
       .then(
         (result) => {
-          setItems(result.message);
-          setIsLoaded(true);
+          if(result.success){
+            setItems(result.message);
+            setIsLoaded(true);
+          }
+          else{
+            alert(`Error (#` + result.error + '): ' + result.message);
+          }
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
-          setIsLoaded(true);
           setError(error);
+          setIsLoaded(true);
         }
       )
-  }, [])
+  }, [refreshIndex])
 
   const handleChange = (evt) => {
       setValue(evt.target.value);
@@ -66,6 +77,11 @@ function Result() {
   }
 
   if (error) {
+    if (error.error === 'consent_required') {
+      return (
+        <button onClick={getTokenAndTryAgain}>Consent to reading users</button>
+      );
+    }
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;

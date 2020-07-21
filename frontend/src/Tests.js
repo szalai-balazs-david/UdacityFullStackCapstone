@@ -2,18 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
 function Tests() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [refreshIndex, setRefreshIndex] = useState(0);
   const [value, setValue] = useState("");
-
-  useEffect(() => {
-      getAccessTokenSilently({
+  const getOpts = {
         audience: 'https://medical-measurement',
         scope: 'get:tests',
-      })
-      fetch("/tests", {
+      };
+  const getTokenAndTryAgain = async () => {
+    await getAccessTokenWithPopup(getOpts);
+    setRefreshIndex(refreshIndex + 1);
+  };
+
+  useEffect(() => {
+      getAccessTokenSilently(getOpts)
+      .then(token => fetch("/tests", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +38,7 @@ function Tests() {
           setError(error);
         }
       )
-  }, [])
+  }, [refreshIndex])
 
   const handleChange = (evt) => {
       setValue(evt.target.value);
@@ -71,6 +77,11 @@ function Tests() {
   }
 
   if (error) {
+    if (error.error === 'consent_required') {
+      return (
+        <button onClick={getTokenAndTryAgain}>Consent to reading users</button>
+      );
+    }
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;
