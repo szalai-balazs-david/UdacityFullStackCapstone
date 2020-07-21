@@ -11,7 +11,7 @@ function Result() {
   useEffect(() => {
       getAccessTokenSilently({
         audience: 'https://medical-measurement',
-        scope: 'get:doctors',
+        scope: 'get:results',
       })
       .then(token => fetch("/results", {
           headers: {
@@ -41,7 +41,7 @@ function Result() {
   const handleSubmit = (evt) => {
       getAccessTokenSilently({
         audience: 'https://medical-measurement',
-        scope: 'get:doctors',
+        scope: 'post:results',
       })
       .then(token => fetch("/results", {
           method: 'POST',

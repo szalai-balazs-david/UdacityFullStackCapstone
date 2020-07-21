@@ -10,9 +10,9 @@ const Profile = () => {
       try {
         const token = await getAccessTokenSilently({
           audience: 'https://medical-measurement',
-          scope: 'get:doctors',
+          scope: 'get:profile',
         });
-        const response = await fetch('/user', {
+        const response = await fetch('/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

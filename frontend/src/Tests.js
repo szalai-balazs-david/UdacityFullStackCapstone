@@ -9,7 +9,15 @@ function Tests() {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-      fetch("/tests")
+      getAccessTokenSilently({
+        audience: 'https://medical-measurement',
+        scope: 'get:tests',
+      })
+      fetch("/tests", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }))
       .then(res => res.json())
       .then(
         (result) => {
