@@ -16,14 +16,14 @@ def after_request(response):
 
 @app.route('/profile', methods=['GET'])
 @requires_auth('get:profile')
-def app_get_user():
+def app_get_profile():
     user_id = get_user_id()
     return get_profile(user_id)
 
 
 @app.route('/profile', methods=['PATCH'])
 @requires_auth('patch:profile')
-def app_update_user():
+def app_update_profile():
     user_id = get_user_id()
     data = request.json
     if 'name' not in data:
@@ -90,13 +90,13 @@ def app_delete_results(result_id):
 
 @app.route('/users', methods=['GET'])
 @requires_auth('get:users')
-def app_get_results():
+def app_get_users():
     return get_available_users()
 
 
 @app.route('/users/<user_id>/results', methods=['GET'])
 @requires_auth('get:patient_results')
-def app_get_results(user_id):
+def app_get_user_results(user_id):
     test_id = request.args.get('test_id', -1, type=int)
     return get_test_results(user_id, test_id)
 
