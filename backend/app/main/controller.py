@@ -31,6 +31,12 @@ def app_update_profile():
     return update_profile(user_id, data['name'])
 
 
+@app.route('/tests', methods=['GET'])
+@requires_auth('get:tests')
+def app_get_tests():
+    return get_tests()
+
+
 @app.route('/tests', methods=['POST'])
 @requires_auth('post:tests')
 def app_post_tests():
@@ -40,10 +46,13 @@ def app_post_tests():
     return create_test(data['name'])
 
 
-@app.route('/tests', methods=['GET'])
-@requires_auth('get:tests')
-def app_get_tests():
-    return get_tests()
+@app.route('/results', methods=['GET'])
+@requires_auth('get:results')
+def app_get_results():
+    user_id = get_user_id()
+    #ToDo: add time range?
+    test_id = request.args.get('id', -1, type=int)
+    return get_test_results(user_id, test_id)
 
 
 @app.route('/results', methods=['POST'])
@@ -58,15 +67,6 @@ def app_post_results():
     if 'value' not in data:
         abort(422)
     return register_test_result(user_id, data['test_id'], data['time'], data['value'])
-
-
-@app.route('/results', methods=['GET'])
-@requires_auth('get:results')
-def app_get_results():
-    user_id = get_user_id()
-    #ToDo: add time range?
-    test_id = request.args.get('id', -1, type=int)
-    return get_test_results(user_id, test_id)
 
 
 @app.route('/results/<result_id>', methods=['PATCH'])
@@ -91,6 +91,7 @@ def app_delete_results(result_id):
 @app.route('/users', methods=['GET'])
 @requires_auth('get:users')
 def app_get_users():
+    get_user_id()
     return get_available_users()
 
 
