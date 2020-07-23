@@ -1,0 +1,3 @@
+[submodule "MedicalTestStoreAPI"]
+	path = MedicalTestStoreAPI
+	url = https://github.com/szalai-balazs-david/MedicalTestStoreAPI.git
