@@ -3,6 +3,7 @@ from app.main.models import TestResult, Test, User
 from app.main.util import get_response
 from flask import abort, jsonify
 from app.main.util import AuthError
+from dateutil import parser
 
 
 def user_to_short_string(user):
@@ -49,7 +50,7 @@ def update_profile(user_id, name):
     user = User.query.get(user_id)
     user.name = name
     db.session.commit()
-    return get_profile(user.id)
+    return get_response(user_to_short_string(user))
 
 
 def create_test(name):
@@ -59,7 +60,7 @@ def create_test(name):
         new_test.name = name
         db.session.add(new_test)
         db.session.commit()
-        return get_response(test_to_short_string(test))
+        return get_response(test_to_short_string(new_test))
     else:
         abort(422, "Name already exists")
 
@@ -73,10 +74,13 @@ def get_tests():
 
 
 def register_test_result(user_id, test_id, time, value):
+    if Test.query.get(test_id) is None:
+        abort(404)
+
     result = TestResult()
     result.user_id = user_id
     result.test_id = test_id
-    result.time = time
+    result.time = parser.parse(time)
     result.value = value
     db.session.add(result)
     db.session.commit()
@@ -112,7 +116,7 @@ def update_test_result(user_id, result_id, time, value):
         }, 403)
 
     if time != '':
-        result.time = time
+        result.time = parser.parse(time)
     if value != '':
         result.value = value
     db.session.commit()
