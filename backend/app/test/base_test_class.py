@@ -6,6 +6,21 @@ from app.main.models import TestResult, Test, User
 from app.main import create_app
 from app.main import db
 import datetime
+import os
+
+
+def basic_auth_header(add_content_type=False):
+    if add_content_type:
+        return {'Authorization': 'Bearer ' + os.getenv('BASIC_TOKEN'),
+                'Content-Type': 'application/json'}
+    return {'Authorization': 'Bearer ' + os.getenv('BASIC_TOKEN')}
+
+
+def advanced_auth_header(add_content_type=False):
+    if add_content_type:
+        return {'Authorization': 'Bearer ' + os.getenv('ADVANCED_TOKEN'),
+                'Content-Type': 'application/json'}
+    return {'Authorization': 'Bearer ' + os.getenv('ADVANCED_TOKEN')}
 
 
 class BaseTestClass(unittest.TestCase):
@@ -48,7 +63,9 @@ class BaseTestClass(unittest.TestCase):
                 test.name = "Test" + str(datapoint['test'])
                 self.db.session.add(test)
                 user = User()
-                user.auth0_id = datapoint['user']
+                user.auth0_id = "User" + str(datapoint['user'])
+                user.name = "User" + str(datapoint['user'])
+                user.email = "User" + str(datapoint['user'])
                 self.db.session.add(user)
                 self.db.session.commit()
                 for j in range(datapoint['data']):
